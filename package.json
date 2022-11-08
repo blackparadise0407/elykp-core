@@ -10,6 +10,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "next dev",
+    "prebuild": "yarn prettier && yarn lint",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

@@ -7,7 +7,7 @@ export {};
 declare global {
   type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     // getLayout?: (page: ReactElement) => ReactNode;
-    Layout?: ElementType<P>;
+    Layout?: ElementType;
   };
 
   type AppPropsWithLayout = Omit<AppProps, 'Component'> & {
