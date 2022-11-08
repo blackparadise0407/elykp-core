@@ -1,13 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
+    './src/pages/**/*.{ts,tsx}',
+    './src/components/**/*.{ts,tsx}',
+    './src/layouts/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        loginBg: "url('/img/login-bg.jpg')",
+        abstractBg: "url('/img/abstract-bg.jpg')",
+        blobBg: "url('/img/blob-bg.jpg')",
+        abstractBlueBg: "url('/img/abstract-blue.jpg')",
+      },
+    },
     fontFamily: {
-      satoshi: ["Satoshi", "serif"],
+      satoshi: ['Satoshi', 'serif'],
+      sfui: ['SF UI Text', 'serif'],
     },
   },
   plugins: [],

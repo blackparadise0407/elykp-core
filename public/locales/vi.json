@@ -1,0 +1,16 @@
+{
+  "hello": "Xin chào",
+  "email": "Email",
+  "password": "Mật khẩu",
+  "your_email": "Email của bạn",
+  "your_password": "Mật khẩu của bạn",
+  "forgot_password": "Quên mật khẩu",
+  "sign_in": "Đăng nhập",
+  "doesnt_have_an_account": "Chưa có tài khoản",
+  "sign_up": "Đăng ký",
+  "sign_up_now": "Đăng ký ngay",
+  "validation": {
+    "please_enter_email": "Vui lòng nhập email",
+    "please_enter_password": "Vui lòng nhập mật khẩu"
+  }
+}

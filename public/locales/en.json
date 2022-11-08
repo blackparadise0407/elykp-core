@@ -1,0 +1,16 @@
+{
+  "hello": "Hello",
+  "email": "Email",
+  "password": "Password",
+  "your_email": "Your email",
+  "your_password": "Your password",
+  "forgot_password": "Forgot password",
+  "sign_in": "Sign in",
+  "doesnt_have_an_account": "Doesn't have an account",
+  "sign_up": "Sign up",
+  "sign_up_now": "Sign up now",
+  "validation": {
+    "please_enter_email": "Please enter email",
+    "please_enter_password": "Please enter password"
+  }
+}

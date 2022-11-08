@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
+
+@layer components {
+  .input {
+    @apply px-2 py-1.5 font-medium text-sm md:text-base border border-gray-300 text-gray-900 rounded-lg bg-gray-50 outline-none placeholder:font-normal placeholder:text-sm focus:bg-transparent focus:ring-1 focus:border-blue-500 focus:ring-blue-500 transition-all;
+  }
+
+  .input.error {
+    @apply border-red-500 ring-red-500;
+  }
+
+  .input.valid {
+    @apply border-green-500 ring-green-500;
+  }
+
+  .form-group {
+  }
+
+  .form-group > label {
+    @apply block text-sm mb-1;
+  }
+
+  .form-group > p {
+    @apply text-sm font-medium text-red-500;
+  }
+
+  .btn {
+    @apply h-[38px] px-2 py-1 text-xs md:text-sm text-white !bg-blue-500 focus:ring-2 focus:ring-blue-200 rounded-lg active:translate-y-0.5 transition-all;
+  }
+
+  a {
+    @apply text-blue-600 hover:text-blue-400 transition-colors;
+  }
+
+  .checkbox {
+    @apply appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer;
+  }
+}
 @tailwind utilities;
+
+*:focus-visible {
+  @apply outline-none ring-2 ring-blue-200;
+}
+
+html {
+  @apply font-sfui scroll-smooth;
+}
