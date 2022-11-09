@@ -2,15 +2,27 @@
   "hello": "Hello",
   "email": "Email",
   "password": "Password",
+  "username": "Username",
+  "confirm_password": "Confirm password",
+  "reenter_password": "Re-enter password",
   "your_email": "Your email",
   "your_password": "Your password",
+  "pick_a_name": "Pick a name",
   "forgot_password": "Forgot password",
   "sign_in": "Sign in",
   "doesnt_have_an_account": "Doesn't have an account",
+  "already_have_an_account": "Already have an account",
   "sign_up": "Sign up",
   "sign_up_now": "Sign up now",
+  "sign_in_now": "Sign in now",
   "validation": {
     "please_enter_email": "Please enter email",
-    "please_enter_password": "Please enter password"
+    "please_enter_password": "Please enter password",
+    "invalid_email": "Invalid email",
+    "please_enter_confirm_password": "Please enter your confirm password",
+    "passwords_do_not_match": "Passwords do not match",
+    "username_min_3": "Username must have at least 3 characters",
+    "please_enter_username": "Please enter username",
+    "username_pattern": "Username can only contain letters, numbers, _ and ."
   }
 }

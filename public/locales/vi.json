@@ -2,15 +2,27 @@
   "hello": "Xin chào",
   "email": "Email",
   "password": "Mật khẩu",
+  "username": "Tên người dùng",
+  "confirm_password": "Xác nhận mật khẩu",
+  "reenter_password": "Nhập lại mật khẩu",
   "your_email": "Email của bạn",
   "your_password": "Mật khẩu của bạn",
+  "pick_a_name": "Chọn tên bạn muốn",
   "forgot_password": "Quên mật khẩu",
   "sign_in": "Đăng nhập",
   "doesnt_have_an_account": "Chưa có tài khoản",
+  "already_have_an_account": "Đã có tài khoản",
   "sign_up": "Đăng ký",
   "sign_up_now": "Đăng ký ngay",
+  "sign_in_now": "Đăng nhập ngay",
   "validation": {
     "please_enter_email": "Vui lòng nhập email",
-    "please_enter_password": "Vui lòng nhập mật khẩu"
+    "please_enter_password": "Vui lòng nhập mật khẩu",
+    "invalid_email": "Email không hợp lệ",
+    "please_enter_confirm_password": "Vui lòng nhập lại mật khẩu",
+    "passwords_do_not_match": "Mật khẩu không trùng khớp",
+    "username_min_3": "Tên người dùng phải có tối thiểu 3 ký tự",
+    "please_enter_username": "Vui lòng nhập tên người dùng",
+    "username_pattern": "Tên người dùng chỉ được có chữ, số, _ và ."
   }
 }
