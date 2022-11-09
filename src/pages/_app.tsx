@@ -1,6 +1,10 @@
 import '@/assets/styles/globals.css';
+
 import localFont from '@next/font/local';
-import { Suspense } from 'react';
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const satoshiFont = localFont({
   src: [
@@ -49,15 +53,54 @@ const sfuiFont = localFont({
 });
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const router = useRouter();
+  const [supabaseClient] = React.useState(() => createBrowserSupabaseClient());
+
   const Layout = Component.Layout ?? (({ children }) => <>{children}</>);
 
+  React.useEffect(() => {
+    async function eff() {
+      const {
+        data: { session },
+      } = await supabaseClient.auth.getSession();
+      if (!session && Component.isPrivate) {
+        router.push('/login');
+      }
+    }
+
+    eff();
+
+    const subscription = supabaseClient.auth.onAuthStateChange((_, session) => {
+      if (!session && Component.isPrivate) {
+        console.log('router', router);
+        router.push('/login');
+        return;
+      }
+
+      if (session && Component.preventAuthAccess) {
+        router.push('/');
+        return;
+      }
+    });
+
+    return () => {
+      subscription.data.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <main className={sfuiFont.className}>
-      <Suspense fallback={<>Loading...</>}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Suspense>
-    </main>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <main className={sfuiFont.className}>
+        <React.Suspense fallback={<>Loading...</>}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </React.Suspense>
+      </main>
+    </SessionContextProvider>
   );
 }
