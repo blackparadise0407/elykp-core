@@ -1,6 +1,5 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": false,
-    "source.organizeImports": true
+    "source.fixAll": true
   }
 }
