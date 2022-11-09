@@ -19,6 +19,11 @@
       {
         "pathGroups": [
           {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "before"
+          },
+          {
             "pattern": "@/**",
             "group": "internal"
           }
