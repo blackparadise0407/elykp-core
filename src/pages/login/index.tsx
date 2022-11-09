@@ -1,31 +1,52 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import clsx from 'clsx';
+import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
+import { AuthContainer } from '@/components';
 import useTranslation from '@/hooks/useTranslation';
 import AuthLayout from '@/layouts/Auth';
 
-interface LoginForm {
-  email: string;
-  password: string;
-}
+import { LoginForm, loginSchema } from './schema';
 
 const Login: NextPageWithLayout = () => {
+  const router = useRouter();
+  const {
+    query: { return_to },
+  } = router;
   const { t } = useTranslation();
+  const supabase = useSupabaseClient();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<LoginForm>({
+    resolver: yupResolver(loginSchema),
+  });
 
-  const onSubmit = (formData: LoginForm) => {
-    console.log(formData);
+  const onSubmit = async (formData: LoginForm) => {
+    try {
+      await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (return_to && typeof return_to === 'string') {
+        router.push(return_to);
+        return;
+      }
+      router.push('/');
+    } catch (e) {}
   };
 
   return (
-    <div className="flex max-w-5xl w-full h-[66vh] rounded-3xl shadow-2xl bg-white overflow-hidden">
-      <div className="hidden md:block bg-blobBg w-1/2 h-full bg-no-repeat bg-center bg-cover"></div>
-      <div className="flex-1 flex flex-col items-center justify-center p-5 gap-2 md:gap-3">
+    <>
+      <Head>
+        <title>{t('sign_in')}</title>
+      </Head>
+      <AuthContainer>
         <div className="grow"></div>
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
           {t('hello')}
@@ -44,11 +65,9 @@ const Login: NextPageWithLayout = () => {
               className={clsx('input w-full', errors.email && 'error')}
               type="text"
               placeholder={t('your_email')}
-              {...register('email', {
-                required: t('validation.please_enter_email'),
-              })}
+              {...register('email')}
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <p>{t(errors.email.message)}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="email">{t('password')}</label>
@@ -56,11 +75,9 @@ const Login: NextPageWithLayout = () => {
               className={clsx('input w-full', errors.password && 'error')}
               type="password"
               placeholder={t('your_password')}
-              {...register('password', {
-                required: t('validation.please_enter_password'),
-              })}
+              {...register('password')}
             />
-            {errors.password && <p>{errors.password.message}</p>}
+            {errors.password && <p>{t(errors.password.message)}</p>}
           </div>
           <div className="flex flex-wrap items-center text-xs md:text-sm">
             <div className="grow"></div>
@@ -77,11 +94,12 @@ const Login: NextPageWithLayout = () => {
             {t('sign_up_now')}
           </Link>
         </p>
-      </div>
-    </div>
+      </AuthContainer>
+    </>
   );
 };
 
 Login.Layout = AuthLayout;
+Login.preventAuthAccess = true;
 
 export default Login;

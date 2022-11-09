@@ -11,7 +11,7 @@ export default function useTranslation() {
   const trans = (locale === 'en' ? en : vi) as Record<string, any>;
 
   function t(key?: string) {
-    return get(trans, key, '');
+    return get(trans, key, key);
   }
 
   return {
