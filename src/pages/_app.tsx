@@ -6,6 +6,8 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { useUser } from '@/hooks/useUser';
+
 const satoshiFont = localFont({
   src: [
     {
@@ -55,36 +57,32 @@ const sfuiFont = localFont({
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
   const [supabaseClient] = React.useState(() => createBrowserSupabaseClient());
+  const { isLoading, user } = useUser(supabaseClient);
 
   const Layout = Component.Layout ?? (({ children }) => <>{children}</>);
 
   React.useEffect(() => {
-    async function eff() {
-      const {
-        data: { session },
-      } = await supabaseClient.auth.getSession();
-      if (!session && Component.isPrivate) {
-        router.push('/login');
-      }
-    }
+    const { data: authStateChange } = supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+        // if (!session && Component.isPrivate) {
+        //   router.push('/login');
+        //   return;
+        // }
 
-    eff();
+        if (event === 'SIGNED_OUT') {
+          router.push('/login');
+          return;
+        }
 
-    const subscription = supabaseClient.auth.onAuthStateChange((_, session) => {
-      if (!session && Component.isPrivate) {
-        console.log('router', router);
-        router.push('/login');
-        return;
-      }
-
-      if (session && Component.preventAuthAccess) {
-        router.push('/');
-        return;
-      }
-    });
+        if (session && Component.preventAuthAccess) {
+          router.push('/');
+          return;
+        }
+      },
+    );
 
     return () => {
-      subscription.data.subscription.unsubscribe();
+      authStateChange.subscription.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -95,11 +93,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       initialSession={pageProps.initialSession}
     >
       <main className={sfuiFont.className}>
-        <React.Suspense fallback={<>Loading...</>}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </React.Suspense>
+        <Layout>
+          {isLoading ? <>Loading...</> : <Component {...pageProps} />}
+        </Layout>
       </main>
     </SessionContextProvider>
   );

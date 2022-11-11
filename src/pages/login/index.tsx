@@ -33,10 +33,12 @@ const Login: NextPageWithLayout = () => {
         email: formData.email,
         password: formData.password,
       });
+
       if (return_to && typeof return_to === 'string') {
         router.push(return_to);
         return;
       }
+
       router.push('/');
     } catch (e) {}
   };

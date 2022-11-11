@@ -1,8 +1,12 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Head from 'next/head';
 
+import { useUser } from '@/hooks/useUser';
+
 const Home: NextPageWithLayout = () => {
   const supabase = useSupabaseClient();
+  const { user, isLoading } = useUser();
+
   return (
     <div>
       <Head>
@@ -15,14 +19,16 @@ const Home: NextPageWithLayout = () => {
         <h1>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <button
-          className="btn"
-          onClick={async () => {
-            await supabase.auth.signOut();
-          }}
-        >
-          Sign out
-        </button>
+        {user && (
+          <button
+            className="btn"
+            onClick={async () => {
+              await supabase.auth.signOut();
+            }}
+          >
+            Sign out
+          </button>
+        )}
       </main>
     </div>
   );
