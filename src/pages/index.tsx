@@ -1,11 +1,13 @@
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 import { useUser } from '@/hooks/useUser';
 
 const Home: NextPageWithLayout = () => {
   const supabase = useSupabaseClient();
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
 
   return (
     <div>
@@ -35,5 +37,12 @@ const Home: NextPageWithLayout = () => {
 };
 
 Home.isPrivate = true;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx);
+  return {
+    props: {},
+  };
+};
 
 export default Home;

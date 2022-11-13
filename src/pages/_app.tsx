@@ -6,6 +6,7 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { ToastProvider } from '@/contexts/toasts';
 import { useUser } from '@/hooks/useUser';
 
 const satoshiFont = localFont({
@@ -63,20 +64,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   React.useEffect(() => {
     const { data: authStateChange } = supabaseClient.auth.onAuthStateChange(
-      (event, session) => {
-        // if (!session && Component.isPrivate) {
-        //   router.push('/login');
-        //   return;
-        // }
-
-        if (event === 'SIGNED_OUT') {
-          router.push('/login');
-          return;
-        }
-
-        if (session && Component.preventAuthAccess) {
-          router.push('/');
-          return;
+      (event) => {
+        switch (event) {
+          case 'SIGNED_OUT':
+            router.push('/login');
         }
       },
     );
@@ -85,7 +76,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       authStateChange.subscription.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <SessionContextProvider
@@ -93,9 +84,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       initialSession={pageProps.initialSession}
     >
       <main className={sfuiFont.className}>
-        <Layout>
-          {isLoading ? <>Loading...</> : <Component {...pageProps} />}
-        </Layout>
+        <ToastProvider>
+          <Layout>
+            {isLoading ? <>Loading...</> : <Component {...pageProps} />}
+          </Layout>
+        </ToastProvider>
       </main>
     </SessionContextProvider>
   );

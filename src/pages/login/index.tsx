@@ -1,12 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import clsx from 'clsx';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { AuthContainer } from '@/components';
+import { useToast } from '@/contexts/toasts';
+import { withPreventAuth } from '@/HOCs/withPreventAuth';
 import useTranslation from '@/hooks/useTranslation';
 import AuthLayout from '@/layouts/Auth';
 
@@ -19,6 +22,7 @@ const Login: NextPageWithLayout = () => {
   } = router;
   const { t } = useTranslation();
   const supabase = useSupabaseClient();
+  const { enqueue } = useToast();
   const {
     register,
     handleSubmit,
@@ -89,6 +93,14 @@ const Login: NextPageWithLayout = () => {
             {t('sign_in')}
           </button>
         </form>
+        <button
+          className="btn"
+          onClick={() => {
+            enqueue('halo');
+          }}
+        >
+          Toast
+        </button>
         <div className="grow"></div>
         <p className="text-xs md:text-sm text-gray-500">
           {t('doesnt_have_an_account')}?{' '}
@@ -103,5 +115,11 @@ const Login: NextPageWithLayout = () => {
 
 Login.Layout = AuthLayout;
 Login.preventAuthAccess = true;
+
+export const getServerSideProps = withPreventAuth(async (_) => {
+  return {
+    props: {},
+  };
+});
 
 export default Login;

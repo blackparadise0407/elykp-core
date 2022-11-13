@@ -7,6 +7,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { AuthContainer } from '@/components';
+import { withPreventAuth } from '@/HOCs/withPreventAuth';
 import useTranslation from '@/hooks/useTranslation';
 import AuthLayout from '@/layouts/Auth';
 
@@ -124,5 +125,11 @@ const Register: NextPageWithLayout = () => {
 };
 
 Register.Layout = AuthLayout;
+
+export const getServerSideProps = withPreventAuth(async (_) => {
+  return {
+    props: {},
+  };
+});
 
 export default Register;
