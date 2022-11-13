@@ -46,3 +46,12 @@
 html {
   @apply font-sfui scroll-smooth;
 }
+
+@keyframes decrease {
+  from {
+    background-size: 100%;
+  }
+  to {
+    background-size: 0%;
+  }
+}
