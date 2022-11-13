@@ -24,5 +24,6 @@
     "username_min_3": "Username must have at least 3 characters",
     "please_enter_username": "Please enter username",
     "username_pattern": "Username can only contain letters, numbers, _ and ."
-  }
+  },
+  "send_me_reset_password_link": "Send me request password link"
 }

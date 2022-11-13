@@ -24,5 +24,6 @@
     "username_min_3": "Tên người dùng phải có tối thiểu 3 ký tự",
     "please_enter_username": "Vui lòng nhập tên người dùng",
     "username_pattern": "Tên người dùng chỉ được có chữ, số, _ và ."
-  }
+  },
+  "send_me_reset_password_link": "Gửi link khôi phục mật khẩu"
 }
